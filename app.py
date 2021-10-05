@@ -13,10 +13,10 @@ from dash.dependencies import Input, Output , State
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import CountVectorizer
 import os
-import wordcloud
+#import wordcloud
 from collections import Counter
 import numpy as np
-from wordcloud import WordCloud, STOPWORDS
+#from wordcloud import WordCloud, STOPWORDS
 
 # Declaring Global variables
 project_name = None
@@ -36,37 +36,7 @@ def load_model():
     vocab = pickle.load(file)
     #pie chart
     print('Loading Data......')
-    temp = []
-    for i in scrappedReviews['reviews']:
-        temp.append(check_review(i)[0])
-    scrappedReviews['sentiment'] = temp
-    
-    positive = len(scrappedReviews[scrappedReviews['sentiment']==1])
-    negative = len(scrappedReviews[scrappedReviews['sentiment']==0])
-    
-    explode = (0.1,0)  
 
-    langs = ['Positive', 'Negative',]
-    students = [positive,negative]
-    colors = ['#41fc1c','red']
-    plt.pie(students,explode=explode,startangle=90,colors=colors, labels = langs,autopct='%1.2f%%')
-    cwd = os.getcwd()
-    if 'assets' not in os.listdir(cwd):
-        os.makedirs(cwd+'/assets')
-    plt.savefig('assets/sentiment.png')
-    #wordcloud
-    dataset = scrappedReviews['reviews'].to_list()
-    str1 = ''
-    for i in dataset:
-        str1 = str1+i
-    str1 = str1.lower()
-
-    stopwords = set(STOPWORDS)
-    cloud = WordCloud(width = 800, height = 400,
-                background_color ='white',
-                stopwords = stopwords,
-                min_font_size = 10).generate(str1)
-    cloud.to_file("assets/wordCloud.png")
     #drop down
     global chart_dropdown_values
     chart_dropdown_values = {}
@@ -240,7 +210,7 @@ def main():
     # favicon  == 16x16 icon ----> favicon.ico  ----> assests
     app.title = project_name
     app.layout = create_app_ui()
-    app.run_server(debug=True)
+    app.run_server()
     
     
     
